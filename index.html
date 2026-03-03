@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <!--本番環境用-->
+  <meta charset="UTF-8">
+  <title>RUJY - マップ表示</title>
+  <link rel="stylesheet" href="nav.css">
+  <link rel="icon" href="icon.png">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</head>
+<body>
+
+<!-- サイドナビ -->
+<div class="sidebar">
+  <div class="logo">
+    <a href="index.html"><img src="icon.png" alt="RUJY"></a>
+  </div>
+  <nav>
+    <a href="index.html" class="active">🗺 マップ</a>
+    <a href="name.html">👤 名前登録</a>
+    <a href="apps.html">📱 アプリ</a>
+  </nav>
+</div>
+
+<!-- メインコンテンツ -->
+<div class="main-content">
+  <h4>マップ表示</h4>
+  <div class="info-area">
+    <p id="result">まだ取得していません</p>
+    <div id="map"></div>
+  </div>
+  <button onclick="getAddress()">住所を取得</button>
+
+  <footer>
+    <h5 class="copyright">©RUJY.inc</h5>
+    <a href="https://youtube.com/@jyagagames" class="btn2">(Youtubeフォローしてね!!)</a>
+  </footer>
+</div>
+
+<script>
+  let map;
+  let marker;
+
+  function getAddress() {
+    if (!navigator.geolocation) {
+      document.getElementById("result").textContent = "位置情報が使えません";
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      async function (position) {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+        const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`;
+        const response = await fetch(url);
+        const data = await response.json();
+        document.getElementById("result").textContent = data.display_name;
+        localStorage.setItem("savedAddress", data.display_name);
+        if (marker) map.removeLayer(marker);
+        marker = L.marker([lat, lon]).addTo(map);
+        map.setView([lat, lon], 15);
+      },
+      function () {
+        document.getElementById("result").textContent = "取得に失敗しました";
+      }
+    );
+  }
+
+  window.onload = function () {
+    map = L.map('map').setView([35.681236, 139.767125], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+  };
+</script>
+
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>RUJY - 名前登録</title>
+  <link rel="stylesheet" href="nav.css">
+  <link rel="icon" href="icon.png">
+</head>
+<body>
+
+<!-- サイドナビ -->
+<div class="sidebar">
+  <div class="logo">
+    <a href="index.html"><img src="icon.png" alt="RUJY"></a>
+  </div>
+  <nav>
+    <a href="index.html">🗺 マップ</a>
+    <a href="name.html" class="active">👤 名前登録</a>
+    <a href="apps.html">📱 アプリ</a>
+  </nav>
+</div>
+
+<!-- メインコンテンツ -->
+<div class="main-content">
+  <h4>名前登録</h4>
+  <input type="text" id="username" placeholder="名前を入力">
+  <button onclick="saveName()">登録</button>
+  <button onclick="deleteName()">削除</button>
+  <h6 id="nameDisplay"></h6>
+
+  <hr>
+
+  <h4>がんばりポイント</h4>
+  <p id="studentPoints">ポイント：-</p>
+
+  <footer>
+    <h5 class="copyright">©RUJY.inc</h5>
+    <a href="https://youtube.com/@jyagagames" class="btn2">(Youtubeフォローしてね!!)</a>
+  </footer>
+</div>
+
+<script>
+  function saveName() {
+    const name = document.getElementById("username").value;
+    if (name === "") {
+      alert("名前を入力してください");
+      return;
+    }
+    localStorage.setItem("savedName", name);
+    displayName();
+    displayStudentPoints();
+  }
+
+  function deleteName() {
+    localStorage.removeItem("savedName");
+    document.getElementById("nameDisplay").textContent = "";
+    document.getElementById("studentPoints").textContent = "ポイント：-";
+  }
+
+  function displayName() {
+    const saved = localStorage.getItem("savedName");
+    if (saved) {
+      document.getElementById("nameDisplay").textContent = saved;
+    }
+  }
+
+  function displayStudentPoints() {
+    const name = localStorage.getItem("savedName");
+    if (!name) {
+      document.getElementById("studentPoints").textContent = "名前が登録されていません";
+      return;
+    }
+    const key = "points_" + name;
+    const points = localStorage.getItem(key) || "0";
+    document.getElementById("studentPoints").textContent = `ポイント：${points}pt!`;
+  }
+
+  window.onload = function () {
+    displayName();
+    displayStudentPoints();
+  };
+</script>
+
+</body>
+</html>

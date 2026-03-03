@@ -1,0 +1,186 @@
+/* ===== レイアウト ===== */
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  display: flex;
+  min-height: 100vh;
+  background-color: rgb(200, 200, 200);
+  font-family: 'Helvetica Neue', sans-serif;
+}
+
+/* ===== サイドナビ ===== */
+.sidebar {
+  width: 180px;
+  min-height: 100vh;
+  background-color: #1a1a2e;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+}
+
+.sidebar .logo {
+  margin-bottom: 30px;
+}
+
+.sidebar .logo img {
+  height: 50px;
+  cursor: pointer;
+}
+
+.sidebar nav {
+  width: 100%;
+}
+
+.sidebar nav a {
+  display: block;
+  color: #aaa;
+  text-decoration: none;
+  padding: 14px 20px;
+  font-size: 14px;
+  border-left: 3px solid transparent;
+  transition: all 0.2s;
+}
+
+.sidebar nav a:hover {
+  color: white;
+  background-color: rgba(255,255,255,0.05);
+  border-left: 3px solid #4f8ef7;
+}
+
+.sidebar nav a.active {
+  color: white;
+  background-color: rgba(79, 142, 247, 0.15);
+  border-left: 3px solid #4f8ef7;
+}
+
+/* ===== メインコンテンツ ===== */
+.main-content {
+  margin-left: 180px;
+  flex: 1;
+  padding: 30px;
+}
+
+/* ===== ヘッダー（サイドバー内） ===== */
+header {
+  background-color: white;
+  color: black;
+  padding: 20px 0;
+  text-align: center;
+}
+
+/* ===== 段落 ===== */
+p {
+  color: black;
+  text-align: center;
+}
+
+/* ===== ボタンリンク ===== */
+.btn {
+  background-color: blue;
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 10px;
+  display: inline-block;
+  margin: 10px auto;
+  text-align: center;
+}
+
+.btn2 {
+  background-color: black;
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 10px;
+  display: inline-block;
+  margin: 10px auto;
+}
+
+h4 { text-align: center; }
+h6 { color: black; text-align: center; }
+
+/* ===== マップ ===== */
+.info-area {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+#result {
+  width: 40%;
+  word-break: break-all;
+}
+
+#map {
+  height: 300px;
+  width: 55%;
+  border: 1px solid #ccc;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ===== フッター ===== */
+footer {
+  background-color: white;
+  padding: 20px;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  left: 180px;
+  right: 0;
+  z-index: 50;
+}
+
+/* フッターの高さ分、コンテンツが隠れないようにする */
+.main-content {
+  padding-bottom: 100px;
+}
+
+.copyright {
+  text-align: center;
+}
+
+/* ===== アニメーション ===== */
+@keyframes shake {
+  0%   { transform: translateX(0); }
+  25%  { transform: translateX(-3px); }
+  50%  { transform: translateX(3px); }
+  75%  { transform: translateX(-3px); }
+  100% { transform: translateX(0); }
+}
+
+.btn2:hover {
+  animation: shake 0.3s linear infinite;
+}
+
+/* ===== レスポンシブ ===== */
+@media (max-width: 600px) {
+  .sidebar {
+    width: 60px;
+  }
+  .sidebar nav a {
+    font-size: 0;
+    padding: 14px;
+    text-align: center;
+  }
+  .sidebar nav a::before {
+    font-size: 18px;
+  }
+  .main-content {
+    margin-left: 60px;
+  }
+  .sidebar .logo img {
+    height: 35px;
+  }
+}
