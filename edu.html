@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>先生・管理者用</title>
+  <link rel="icon" href="rogo.png">
+  <link rel="stylesheet" href="teacher.css">
+</head>
+<body>
+<header>
+  <div class="header-rogo">
+  <a href="edu.html"><img src="rogo.png" alt="header-rogo"></a></div>
+  <h2>先生・管理者</h2>  
+</header>
+
+<h1>生徒たちの位置情報</h1>
+<p>保存された名前：<span id="name"></span></p>
+<p>保存された住所：<span id="address"></span></p>
+<hr>
+<h2>ポイント管理</h2>
+<label for="studentName">生徒の名前：</label>
+<input type="text" id="studentName" placeholder="例：東三たろう">
+<button onclick="loadPoints()">ポイント確認</button>
+
+<p id="pointDisplay">ポイント：-</p>
+
+<button onclick="addPoints(1)">＋1ポイント</button>
+<button onclick="addPoints(5)">＋5ポイント</button>
+<button onclick="resetPoints()">リセット</button>
+
+<p id="adminMessage"></p>
+
+<hr>
+
+<h2>生徒評価メモ</h2>
+
+<textarea id="studentMemo" rows="5" cols="50" placeholder="ここに評価メモを書いてください"></textarea>
+<br><br>
+
+<button onclick="loadMemo()">メモ読み込み</button>
+<button onclick="saveMemo()">メモ保存</button>
+<button onclick="deleteMemo()">メモ削除</button>
+
+<p id="memoMessage"></p>
+
+<script>
+  // 名前と住所の表示
+  document.getElementById("name").textContent =
+    localStorage.getItem("savedName") || "未登録";
+
+  document.getElementById("address").textContent =
+    localStorage.getItem("savedAddress") || "未取得";
+
+  // ===== ポイント管理 =====
+  function getKey() {
+    const name = document.getElementById("studentName").value;
+    return "points_" + name;
+  }
+
+  function loadPoints() {
+    const key = getKey();
+    const points = localStorage.getItem(key) || "0";
+    document.getElementById("pointDisplay").textContent = `ポイント：${points}pt`;
+  }
+
+  function addPoints(amount) {
+    const key = getKey();
+    let current = parseInt(localStorage.getItem(key) || "0");
+    current += amount;
+    localStorage.setItem(key, current);
+    document.getElementById("pointDisplay").textContent = `ポイント：${current}pt`;
+    document.getElementById("adminMessage").textContent = `${amount}ポイント追加しました！`;
+  }
+
+  function resetPoints() {
+    const key = getKey();
+    localStorage.setItem(key, "0");
+    document.getElementById("pointDisplay").textContent = `ポイント：0pt`;
+    document.getElementById("adminMessage").textContent = `ポイントをリセットしました。`;
+  }
+
+  // ===== メモ管理 =====
+  function getMemoKey() {
+    const name = document.getElementById("studentName").value;
+    return "memo_" + name;
+  }
+
+  function loadMemo() {
+    const key = getMemoKey();
+    const memo = localStorage.getItem(key) || "";
+    document.getElementById("studentMemo").value = memo;
+    document.getElementById("memoMessage").textContent = "メモを読み込みました。";
+  }
+
+  function saveMemo() {
+    const key = getMemoKey();
+    const memo = document.getElementById("studentMemo").value;
+    localStorage.setItem(key, memo);
+    document.getElementById("memoMessage").textContent = "メモを保存しました！";
+  }
+
+  function deleteMemo() {
+    const key = getMemoKey();
+    localStorage.removeItem(key);
+    document.getElementById("studentMemo").value = "";
+    document.getElementById("memoMessage").textContent = "メモを削除しました。";
+  }
+</script>
+
+<footer>©RUJY.inc</footer>
+</body>
+</html>
