@@ -184,3 +184,17 @@ footer {
     height: 35px;
   }
 }
+.messageContainer{
+  width: 500px;
+  margin: 30px auto;   /* ← 真ん中にする魔法 */
+  text-align: center;
+}
+.homeworkBox{
+  width: 400px;
+  margin: 30px auto;
+  text-align: center;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
