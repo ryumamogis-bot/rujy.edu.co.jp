@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RUJY|宿題管理</title>
+    <link rel="stylesheet" href="nav.css">
+    <link rel="icon" href="icon.png">
+</head>
+<body>
+<div class="sidebar">
+  <div class="logo">
+    <a href="index.html"><img src="icon.png" alt="RUJY"></a>
+  </div>
+  <nav>
+    <a href="index.html" class="active">🗺 マップ</a>
+    <a href="name.html">👤 名前登録</a>
+    <a href="apps.html">📱 アプリ</a>
+        <a href="tecahermessage.html">先生からのメッセージ</a>
+        <a href="homework.html">宿題</a>
+         <a href="tecaher-login.html">管理者こちら!!</a>
+  </nav>
+</div>
+<h2>📤 宿題提出</h2>
+
+<div class="homeworkBox">
+  <input type="text" id="homeworkTitle" placeholder="宿題の名前">
+  <br><br>
+  <button onclick="submitHomework()">提出する</button>
+
+  <p id="submitMessage"></p>
+</div>
+<script>
+    function submitHomework(){
+  const title = document.getElementById("homeworkTitle").value;
+
+  if(title === ""){
+    alert("宿題名を書いてね！");
+    return;
+  }
+
+  let submissions = JSON.parse(localStorage.getItem("rujyHomework")) || [];
+
+  submissions.push({
+    title: title,
+    student: localStorage.getItem("savedName") || "名無し",
+    date: new Date().toLocaleString()
+  });
+
+  localStorage.setItem("rujyHomework", JSON.stringify(submissions));
+
+  document.getElementById("homeworkTitle").value = "";
+  document.getElementById("submitMessage").textContent = "提出しました！";
+}
+</script>
+</body>
+</html>
