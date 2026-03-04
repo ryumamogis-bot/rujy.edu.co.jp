@@ -3,18 +3,55 @@
 <head>
   <!--本番環境用-->
   <meta charset="UTF-8">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-KJM9WX59VJ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-KJM9WX59VJ');
+  </script>
+
+  <!-- Google Tag Manager (GTM-WNL6NF) -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-WNL6NF');</script>
+  <!-- End Google Tag Manager -->
+
+  <!-- Google Tag Manager (GTM-PXLBMKNR) -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PXLBMKNR');</script>
+  <!-- End Google Tag Manager -->
+
   <title>RUJY - マップ表示</title>
   <link rel="stylesheet" href="nav.css">
-  <link rel="icon" href="rogo.png">
+  <link rel="icon" href="icon.png">
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <!-- ※ <base href> を削除: Leaflet等の外部リソースURLの解決を妨げるため -->
 </head>
 <body>
+
+<!-- Google Tag Manager (noscript) WNL6NF -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WNL6NF"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<!-- Google Tag Manager (noscript) PXLBMKNR -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PXLBMKNR"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 
 <!-- サイドナビ -->
 <div class="sidebar">
   <div class="logo">
-    <a href="index.html"><img src="rogo.png" alt="RUJY"></a>
+    <a href="index.html"><img src="icon.png" alt="RUJY"></a>
   </div>
   <nav>
     <a href="index.html" class="active">🗺 マップ</a>
@@ -41,6 +78,7 @@
 <script>
   let map;
   let marker;
+  let savedAddress = null; // localStorage の代わりにメモリで保持
 
   function getAddress() {
     if (!navigator.geolocation) {
@@ -52,16 +90,20 @@
         const lat = position.coords.latitude;
         const lon = position.coords.longitude;
         const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`;
-        const response = await fetch(url);
-        const data = await response.json();
-        document.getElementById("result").textContent = data.display_name;
-        localStorage.setItem("savedAddress", data.display_name);
-        if (marker) map.removeLayer(marker);
-        marker = L.marker([lat, lon]).addTo(map);
-        map.setView([lat, lon], 15);
+        try {
+          const response = await fetch(url);
+          const data = await response.json();
+          document.getElementById("result").textContent = data.display_name;
+          savedAddress = data.display_name; // メモリに保存
+          if (marker) map.removeLayer(marker);
+          marker = L.marker([lat, lon]).addTo(map);
+          map.setView([lat, lon], 15);
+        } catch (e) {
+          document.getElementById("result").textContent = "住所の取得に失敗しました";
+        }
       },
       function () {
-        document.getElementById("result").textContent = "取得に失敗しました";
+        document.getElementById("result").textContent = "位置情報の取得に失敗しました";
       }
     );
   }
