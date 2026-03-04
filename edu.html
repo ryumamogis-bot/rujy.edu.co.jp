@@ -6,18 +6,22 @@
   <link rel="stylesheet" href="tecaher.css">
 </head>
 <body>
+
 <header>
   <div class="header-rogo">
-  <a href="edu.html"><img src="rogo.png" alt="header-rogo"    width="100"　　 height="100" ></a></div>
+    <a href="edu.html"><img src="rogo.png" alt="header-rogo"></a>
+  </div>
   <h2>先生・管理者</h2>  
 </header>
 
 <h1>生徒たちの位置情報</h1>
 <p>保存された名前：<span id="name"></span></p>
 <p>保存された住所：<span id="address"></span></p>
+
 <hr>
+
 <h2>ポイント管理</h2>
-<label for="studentName">生徒の名前：</label>
+<label>生徒の名前：</label>
 <input type="text" id="studentName" placeholder="例：東三たろう">
 <button onclick="loadPoints()">ポイント確認</button>
 
@@ -42,68 +46,153 @@
 
 <p id="memoMessage"></p>
 
+<hr>
+
+<h2>📢 生徒へのお知らせ</h2>
+
+<textarea id="adminSendMessage" rows="4" cols="50" placeholder="生徒へのお知らせを書いてください"></textarea>
+<br><br>
+
+<button onclick="sendAdminMessage()">送信</button>
+<button onclick="clearAllMessages()">全メッセージ削除</button>
+
+<p id="sendMessageStatus"></p>
+
+<hr>
+
+<h2>📥 宿題提出一覧</h2>
+<div id="homeworkList"></div>
+
 <script>
-  // 名前と住所の表示
-  document.getElementById("name").textContent =
-    localStorage.getItem("savedName") || "未登録";
+// ===== 名前と住所表示 =====
+document.getElementById("name").textContent =
+  localStorage.getItem("savedName") || "未登録";
 
-  document.getElementById("address").textContent =
-    localStorage.getItem("savedAddress") || "未取得";
+document.getElementById("address").textContent =
+  localStorage.getItem("savedAddress") || "未取得";
 
-  // ===== ポイント管理 =====
-  function getKey() {
-    const name = document.getElementById("studentName").value;
-    return "points_" + name;
+
+// ===== ポイント管理 =====
+function getKey() {
+  const name = document.getElementById("studentName").value;
+  return "points_" + name;
+}
+
+function loadPoints() {
+  const key = getKey();
+  const points = localStorage.getItem(key) || "0";
+  document.getElementById("pointDisplay").textContent = `ポイント：${points}pt`;
+}
+
+function addPoints(amount) {
+  const key = getKey();
+  let current = parseInt(localStorage.getItem(key) || "0");
+  current += amount;
+  localStorage.setItem(key, current);
+  document.getElementById("pointDisplay").textContent = `ポイント：${current}pt`;
+  document.getElementById("adminMessage").textContent = `${amount}ポイント追加しました！`;
+}
+
+function resetPoints() {
+  const key = getKey();
+  localStorage.setItem(key, "0");
+  document.getElementById("pointDisplay").textContent = `ポイント：0pt`;
+  document.getElementById("adminMessage").textContent = "ポイントをリセットしました。";
+}
+
+
+// ===== メモ管理 =====
+function getMemoKey() {
+  const name = document.getElementById("studentName").value;
+  return "memo_" + name;
+}
+
+function loadMemo() {
+  const key = getMemoKey();
+  const memo = localStorage.getItem(key) || "";
+  document.getElementById("studentMemo").value = memo;
+  document.getElementById("memoMessage").textContent = "メモを読み込みました。";
+}
+
+function saveMemo() {
+  const key = getMemoKey();
+  const memo = document.getElementById("studentMemo").value;
+  localStorage.setItem(key, memo);
+  document.getElementById("memoMessage").textContent = "メモを保存しました！";
+}
+
+function deleteMemo() {
+  const key = getMemoKey();
+  localStorage.removeItem(key);
+  document.getElementById("studentMemo").value = "";
+  document.getElementById("memoMessage").textContent = "メモを削除しました。";
+}
+
+
+// ===== メッセージ送信 =====
+function sendAdminMessage() {
+  const message = document.getElementById("adminSendMessage").value;
+
+  if(message === ""){
+    alert("メッセージを書いてください！");
+    return;
   }
 
-  function loadPoints() {
-    const key = getKey();
-    const points = localStorage.getItem(key) || "0";
-    document.getElementById("pointDisplay").textContent = `ポイント：${points}pt`;
-  }
+  let messages = JSON.parse(localStorage.getItem("rujyMessages")) || [];
 
-  function addPoints(amount) {
-    const key = getKey();
-    let current = parseInt(localStorage.getItem(key) || "0");
-    current += amount;
-    localStorage.setItem(key, current);
-    document.getElementById("pointDisplay").textContent = `ポイント：${current}pt`;
-    document.getElementById("adminMessage").textContent = `${amount}ポイント追加しました！`;
-  }
+  messages.unshift({
+    text: message,
+    date: new Date().toLocaleString()
+  });
 
-  function resetPoints() {
-    const key = getKey();
-    localStorage.setItem(key, "0");
-    document.getElementById("pointDisplay").textContent = `ポイント：0pt`;
-    document.getElementById("adminMessage").textContent = `ポイントをリセットしました。`;
-  }
+  localStorage.setItem("rujyMessages", JSON.stringify(messages));
 
-  // ===== メモ管理 =====
-  function getMemoKey() {
-    const name = document.getElementById("studentName").value;
-    return "memo_" + name;
-  }
+  document.getElementById("adminSendMessage").value = "";
+  document.getElementById("sendMessageStatus").textContent = "メッセージを送信しました！";
+}
 
-  function loadMemo() {
-    const key = getMemoKey();
-    const memo = localStorage.getItem(key) || "";
-    document.getElementById("studentMemo").value = memo;
-    document.getElementById("memoMessage").textContent = "メモを読み込みました。";
-  }
+function clearAllMessages(){
+  localStorage.removeItem("rujyMessages");
+  document.getElementById("sendMessageStatus").textContent = "全メッセージを削除しました。";
+}
 
-  function saveMemo() {
-    const key = getMemoKey();
-    const memo = document.getElementById("studentMemo").value;
-    localStorage.setItem(key, memo);
-    document.getElementById("memoMessage").textContent = "メモを保存しました！";
-  }
 
-  function deleteMemo() {
-    const key = getMemoKey();
-    localStorage.removeItem(key);
-    document.getElementById("studentMemo").value = "";
-    document.getElementById("memoMessage").textContent = "メモを削除しました。";
-  }
+// ===== 宿題提出一覧 =====
+function loadHomework(){
+  const list = document.getElementById("homeworkList");
+  const submissions = JSON.parse(localStorage.getItem("rujyHomework")) || [];
+
+  list.innerHTML = "";
+
+  submissions.forEach((item, index)=>{
+    const div = document.createElement("div");
+
+    div.style.background="#eef3ff";
+    div.style.margin="10px";
+    div.style.padding="10px";
+    div.style.borderRadius="8px";
+
+    div.innerHTML = `
+      <strong>${item.title}</strong><br>
+      提出者: ${item.student}<br>
+      <small>${item.date}</small>
+      <br><br>
+      <button onclick="deleteHomework(${index})">削除</button>
+    `;
+
+    list.appendChild(div);
+  });
+}
+
+function deleteHomework(index){
+  let submissions = JSON.parse(localStorage.getItem("rujyHomework")) || [];
+  submissions.splice(index,1);
+  localStorage.setItem("rujyHomework", JSON.stringify(submissions));
+  loadHomework();
+}
+
+loadHomework();
+
 </script>
 
 <footer>©RUJY.inc</footer>
