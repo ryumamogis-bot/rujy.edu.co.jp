@@ -31,7 +31,7 @@
 
   <title>RUJY - マップ表示</title>
   <link rel="stylesheet" href="nav.css">
-  <link rel="icon" href="rogo.png">
+  <link rel="icon" href="icon.png">
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <!-- ※ <base href> を削除: Leaflet等の外部リソースURLの解決を妨げるため -->
@@ -51,14 +51,16 @@
 <!-- サイドナビ -->
 <div class="sidebar">
   <div class="logo">
-    <a href="index.html"><img src="rogo.png" alt="RUJY"></a>
+    <a href="index.html"><img src="icon.png" alt="RUJY"></a>
   </div>
   <nav>
     <a href="index.html" class="active">🗺 マップ</a>
     <a href="name.html">👤 名前登録</a>
     <a href="apps.html">📱 アプリ</a>
-   <a href="tecahermessage.html" class="active">先生からのメッセージ</a>
-    <!--一番下にする-->
+        <a href="tecahermessage.html">先生からのメッセージ</a>
+        <a href="homework.html">宿題</a>
+        <!--一番下-->
+        <a href="tecaher-login.html">管理者こちら!!</a>
   </nav>
 </div>
 
@@ -116,6 +118,7 @@
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
   };
+  
 </script>
 
 </body>
