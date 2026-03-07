@@ -1,125 +1,189 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <!--本番環境用-->
-  <meta charset="UTF-8">
 
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-KJM9WX59VJ"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-KJM9WX59VJ');
-  </script>
+<meta charset="UTF-8">
 
-  <!-- Google Tag Manager (GTM-WNL6NF) -->
-  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-WNL6NF');</script>
-  <!-- End Google Tag Manager -->
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KJM9WX59VJ"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-KJM9WX59VJ');
+</script>
 
-  <!-- Google Tag Manager (GTM-PXLBMKNR) -->
-  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-PXLBMKNR');</script>
-  <!-- End Google Tag Manager -->
+<!-- Google Tag Manager -->
+<script>
+(function(w,d,s,l,i){
+w[l]=w[l]||[];
+w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});
+var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),
+dl=l!='dataLayer'?'&l='+l:'';
+j.async=true;
+j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WNL6NF');
+</script>
 
-  <title>RUJY - マップ表示</title>
-  <link rel="stylesheet" href="nav.css">
-  <link rel="icon" href="icon.png">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-  <!-- ※ <base href> を削除: Leaflet等の外部リソースURLの解決を妨げるため -->
+<title>RUJY - マップ</title>
+
+<link rel="icon" href="icon.png">
+<link rel="stylesheet" href="nav.css">
+
+<link rel="stylesheet"
+href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
 </head>
+
 <body>
 
-<!-- Google Tag Manager (noscript) WNL6NF -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WNL6NF"
-  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
+<!-- サイドバー -->
+<aside class="sidebar">
 
-<!-- Google Tag Manager (noscript) PXLBMKNR -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PXLBMKNR"
-  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
-
-<!-- サイドナビ -->
-<div class="sidebar">
-  <div class="logo">
-    <a href="index.html"><img src="icon.png" alt="RUJY"></a>
-  </div>
-  <nav>
-    <a href="index.html" class="active">🗺 マップ</a>
-    <a href="name.html">👤 名前登録</a>
-    <a href="apps.html">📱 アプリ</a>
-        <a href="tecahermessage.html">先生からのメッセージ</a>
-        <a href="homework.html">宿題</a>
-        <!--一番下-->
-        <a href="tecaher-login.html">管理者こちら!!</a>
-  </nav>
+<div class="logo">
+<a href="index.html">
+<img src="icon.png" alt="RUJY">
+</a>
 </div>
 
-<!-- メインコンテンツ -->
-<div class="main-content">
-  <h4>マップ表示</h4>
-  <div class="info-area">
-    <p id="result">まだ取得していません</p>
-    <div id="map"></div>
-  </div>
-  <button onclick="getAddress()">住所を取得</button>
+<nav>
 
-  <footer>
-    <h5 class="copyright">©RUJY.inc</h5>
-    <a href="https://youtube.com/@jyagagames" class="btn2">(Youtubeフォローしてね!!)</a>
-  </footer>
+<a href="index.html" class="active">
+🗺 マップ
+</a>
+
+<a href="name.html">
+👤 名前登録
+</a>
+
+<a href="apps.html">
+📱 アプリ
+</a>
+
+<a href="tecahermessage.html">
+💬 先生からのメッセージ
+</a>
+
+<a href="homework.html">
+📚 宿題
+</a>
+
+<a href="tecaher-login.html">
+🔐 管理者
+</a>
+
+</nav>
+
+</aside>
+
+<!-- メイン -->
+<main class="main-content">
+
+<h2>マップ表示</h2>
+
+<div class="info-area">
+
+<p id="result">
+まだ取得していません
+</p>
+
+<div id="map"></div>
+
 </div>
+
+<button onclick="getAddress()">
+住所を取得
+</button>
+
+<footer>
+
+<p>©RUJY.inc</p>
+
+<a href="https://youtube.com/@jyagagames">
+Youtubeフォローしてね!!
+</a>
+
+</footer>
+
+</main>
 
 <script>
-  let map;
-  let marker;
-  let savedAddress = null; // localStorage の代わりにメモリで保持
 
-  function getAddress() {
-    if (!navigator.geolocation) {
-      document.getElementById("result").textContent = "位置情報が使えません";
-      return;
-    }
-    navigator.geolocation.getCurrentPosition(
-      async function (position) {
-        const lat = position.coords.latitude;
-        const lon = position.coords.longitude;
-        const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`;
-        try {
-          const response = await fetch(url);
-          const data = await response.json();
-          document.getElementById("result").textContent = data.display_name;
-          savedAddress = data.display_name; // メモリに保存
-          if (marker) map.removeLayer(marker);
-          marker = L.marker([lat, lon]).addTo(map);
-          map.setView([lat, lon], 15);
-        } catch (e) {
-          document.getElementById("result").textContent = "住所の取得に失敗しました";
-        }
-      },
-      function () {
-        document.getElementById("result").textContent = "位置情報の取得に失敗しました";
-      }
-    );
-  }
+let map;
+let marker;
 
-  window.onload = function () {
-    map = L.map('map').setView([35.681236, 139.767125], 13);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(map);
-  };
-  
+function getAddress(){
+
+if(!navigator.geolocation){
+document.getElementById("result").textContent="位置情報が使えません";
+return;
+}
+
+navigator.geolocation.getCurrentPosition(
+async function(position){
+
+const lat = position.coords.latitude;
+const lon = position.coords.longitude;
+
+const url =
+`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`;
+
+try{
+
+const response = await fetch(url);
+const data = await response.json();
+
+document.getElementById("result").textContent =
+data.display_name;
+
+if(marker){
+map.removeLayer(marker);
+}
+
+marker = L.marker([lat,lon]).addTo(map);
+
+map.setView([lat,lon],15);
+
+}catch{
+
+document.getElementById("result").textContent =
+"住所取得失敗";
+
+}
+
+},
+
+function(){
+document.getElementById("result").textContent =
+"位置取得失敗";
+}
+
+);
+
+}
+
+window.onload=function(){
+
+map = L.map("map").setView(
+[35.681236,139.767125],
+13
+);
+
+L.tileLayer(
+"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+{
+attribution:"© OpenStreetMap contributors"
+}
+).addTo(map);
+
+}
+
 </script>
 
 </body>
 </html>
+```
