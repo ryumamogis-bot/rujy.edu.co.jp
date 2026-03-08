@@ -33,30 +33,47 @@
         </div>
     </div>
 
-    <script>
-        function loadMessages() {
-            const list = document.getElementById("messageList");
-            const messages = JSON.parse(localStorage.getItem("rujyMessages")) || [];
+    <script src="https://cdn.jsdelivr.net/npm/appwrite@13.0.0"></script>
+<script src="appwrite.js"></script>
 
-            list.innerHTML = "";
+<script>
 
-            if (messages.length === 0) {
-                list.innerHTML = "<p>まだメッセージはありません。</p>";
-                return;
-            }
+async function loadMessages(){
 
-            messages.forEach(msg => {
-                const div = document.createElement("div");
-                div.style.background = "#eef3ff";
-                div.style.margin = "10px 0";
-                div.style.padding = "10px";
-                div.style.borderRadius = "8px";
-                div.innerHTML = msg.text + "<br><small>" + msg.date + "</small>";
-                list.appendChild(div);
-            });
-        }
+const list = document.getElementById("messageList");
+list.innerHTML="";
 
-        loadMessages();
-    </script>
+const res = await databases.listDocuments(
+DATABASE_ID,
+MESSAGE_COLLECTION
+);
+
+if(res.documents.length === 0){
+
+list.innerHTML="<p>まだメッセージはありません</p>";
+return;
+
+}
+
+res.documents.forEach(msg=>{
+
+const div=document.createElement("div");
+
+div.style.background="#eef3ff";
+div.style.margin="10px";
+div.style.padding="10px";
+div.style.borderRadius="8px";
+
+div.innerHTML = msg.text + "<br><small>"+msg.date+"</small>";
+
+list.appendChild(div);
+
+});
+
+}
+
+loadMessages();
+
+</script>
 </body>
 </html>
