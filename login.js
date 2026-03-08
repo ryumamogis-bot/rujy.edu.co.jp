@@ -1,20 +1,38 @@
-let answer = "";
-// "33355" が入力されるまでループ
-while (answer !== "33355") {
-    answer = prompt("学校コードを入力してください");
+const client = new Appwrite.Client()
+.setEndpoint("https://cloud.appwrite.io/v1")
+.setProject("69aa00220008584f0b2c");
 
-    // キャンセルされた場合はループを抜ける
-    if (answer === null) {
-        alert("キャンセルされました");
-        break;
-    }
+const databases = new Appwrite.Databases(client);
 
-    // 正解した場合
-    if (answer === "33355") {
-        alert("ログインに成功しました、ホームページに移動します");
-        // index.htmlへ自動ワープ
-        window.location.href = "index.html"; 
-    } else {
-        alert("違います。もう一度入力してください");
-    }
+const DATABASE_ID = "rujyDB";
+const COLLECTION_ID = "password";
+
+async function login(){
+
+const input = document.getElementById("password").value;
+
+try{
+
+const res = await databases.getDocument(
+DATABASE_ID,
+COLLECTION_ID,
+"sitepass"
+);
+
+if(input === res.password){
+
+location.href="index.html";
+
+}else{
+
+document.getElementById("error").innerText="パスワードが違います";
+
+}
+
+}catch(e){
+
+document.getElementById("error").innerText="パスワード設定がありません";
+
+}
+
 }
