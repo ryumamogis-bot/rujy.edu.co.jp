@@ -194,7 +194,31 @@ function deleteHomework(index){
 loadHomework();
 
 </script>
+<script src="https://cdn.jsdelivr.net/npm/appwrite@13.0.0"></script>
+<script src="appwrite.js"></script>
 
+<script>
+
+async function sendMessage(){
+
+const text=document.getElementById("message").value;
+
+await databases.createDocument(
+DATABASE_ID,
+MESSAGE_COLLECTION,
+"unique()",
+{
+text:text,
+date:new Date().toLocaleString()
+}
+);
+
+alert("投稿しました");
+
+}
+
+</script>
 <footer>©RUJY.inc</footer>
+  
 </body>
 </html>
